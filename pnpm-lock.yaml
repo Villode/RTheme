@@ -8,7 +8,7 @@ importers:
     .:
         dependencies:
             '@prisma/client':
-                specifier: 6.6.0
+                specifier: ^6.6.0
                 version: 6.6.0(prisma@6.6.0)
             '@shikijs/markdown-it':
                 specifier: ^1.22.2
