@@ -4,7 +4,7 @@
  */
 
 import prisma from '../../_utils/prisma';
-import * as argon2 from 'argon2';
+import bcrypt from 'bcryptjs';
 import shuffler from '../../_utils/shuffler';
 import limitControl from '../../_utils/limitControl';
 import token from '../../_utils/token';
@@ -152,7 +152,7 @@ export async function POST(request) {
             } else {
                 // 验证密码
                 shufflerPassword = shuffler(infoJSON.password);
-                let passwordValidate = await argon2.verify(result.password, shufflerPassword);
+                let passwordValidate = await bcrypt.compare(shufflerPassword, result.password);
                 isPasswordOK = passwordValidate;
                 if (isPasswordOK) {
                     await updateTime(result.uid, startTime);

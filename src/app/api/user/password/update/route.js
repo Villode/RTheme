@@ -4,20 +4,15 @@
  */
 
 import prisma from '../../../_utils/prisma';
-import * as argon2 from 'argon2';
+import bcrypt from 'bcryptjs';
 import shuffler from '../../../_utils/shuffler';
 import limitControl from '../../../_utils/limitControl';
 import qs from 'qs';
 
 async function encrypt(password) {
     const pwd = shuffler(password);
-    const options = {
-        timeCost: 3,
-        memoryCost: 65536,
-        parallelism: 8,
-        hashLength: 32,
-    };
-    const hashedPassword = await argon2.hash(shuffler(password), options);
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(pwd, salt);
     return hashedPassword;
 }
 
@@ -90,7 +85,7 @@ export async function POST(request) {
         } else {
             // 验证密码
             let shufflerPassword = shuffler(infoJSON.password);
-            let passwordValidate = await argon2.verify(result.password, shufflerPassword);
+            let passwordValidate = await bcrypt.compare(shufflerPassword, result.password);
             let isPasswordOK = passwordValidate;
             if (isPasswordOK) {
                 // 修改密码

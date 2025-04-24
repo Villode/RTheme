@@ -4,7 +4,7 @@
  */
 
 import prisma from '../../_utils/prisma';
-import * as argon2 from 'argon2';
+import bcrypt from 'bcryptjs';
 import shuffler from '../../_utils/shuffler';
 import limitControl from '../../_utils/limitControl';
 import qs from 'qs';
@@ -25,13 +25,8 @@ async function signup(username, nickname, email, password) {
 // 加密器
 async function encrypt(password) {
     const pwd = shuffler(password);
-    const options = {
-        timeCost: 3,
-        memoryCost: 65536,
-        parallelism: 8,
-        hashLength: 32,
-    };
-    const hashedPassword = await argon2.hash(shuffler(password), options);
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(pwd, salt);
     return hashedPassword;
 }
 
