@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "node script/check.js && next dev",
     "build": "node script/check.js && next build",
+    "vercel-build": "npx prisma generate && next build",
     "start": "next start",
     "lint": "next lint"
   },

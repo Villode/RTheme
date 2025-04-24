@@ -3,6 +3,7 @@
         "silent": true
     },
     "cleanUrls": true,
+    "buildCommand": "pnpm vercel-build",
     "env": {
         "VERCEL": "1"
     },
