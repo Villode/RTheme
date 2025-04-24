@@ -6,6 +6,9 @@ const rlog = new RLog();
 // 计时
 const start = Date.now();
 
+// 检查是否在Vercel环境中
+const isVercel = process.env.VERCEL === '1';
+
 // Start build
 rlog.info('Start build check...');
 
@@ -19,6 +22,14 @@ try {
     exit(1);
 }
 rlog.success('Prisma client generated.');
+
+// 如果在Vercel环境中，跳过数据库检查
+if (isVercel) {
+    rlog.info('Detected Vercel environment, skipping database check.');
+    const time = ((Date.now() - start) / 1000).toFixed(2);
+    rlog.success(`Build check completed in ${time}s.`);
+    exit(0);
+}
 
 // 检测数据库是否存在
 rlog.info('Checking remote database...');

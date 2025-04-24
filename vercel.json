@@ -3,6 +3,9 @@
         "silent": true
     },
     "cleanUrls": true,
+    "env": {
+        "VERCEL": "1"
+    },
     "headers": [
         {
             "source": "/(.*).(ttf|woff|woff2)",
